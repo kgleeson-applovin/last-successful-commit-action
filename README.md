@@ -6,7 +6,7 @@ This is especially useful when we have a workflow where we need to know what cha
 in on a given branch between two commits, so we can run some tasks on those
 changes.
 
-Scroll down to the **Background** section below for more info around 
+Scroll down to the **Background** section below for more info around
 why this would be useful.
 
 ## Inputs
@@ -18,7 +18,7 @@ why this would be useful.
 
 ### `github_token`
 
-**Required** Your GitHub access token (see Usage below).
+**Optional** Your GitHub access token (see Usage below). If omitted, you must provide the token through either `GITHUB_TOKEN` or `GH_TOKEN` environment variables.
 
 ### `workflow_id`
 
@@ -50,8 +50,8 @@ jobs:
       - uses: nrwl/last-successful-commit-action@v1
         id: last_successful_commit
         with:
-          branch: 'master'
-          workflow_id: 'deploy.yml'
+          branch: "master"
+          workflow_id: "deploy.yml"
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - run: npm run nx affected -- --target=build --base=${{ steps.last_successful_commit.outputs.commit_hash }} --parallel --configuration=production
 ```
@@ -60,13 +60,11 @@ jobs:
 
 When using a tool like [Nx](https://nx.dev/), for example, it has a feature
 where you give it 2 commits, and it calculates [which projects in your repository changed
-between those 2 commits](https://nx.dev/latest/angular/tutorial/11-test-affected-projects#step-11-test-affected-projects
-). We can then run a set of tasks (like building or linting) only
+between those 2 commits](https://nx.dev/latest/angular/tutorial/11-test-affected-projects#step-11-test-affected-projects). We can then run a set of tasks (like building or linting) only
 on those **affected** projects.
 
 This makes it easy to set-up a CI system that scales really well with the
 continous growth of your repository, as you add more and more projects.
-
 
 ### Problem
 
@@ -92,4 +90,4 @@ we don't accidentally skip deploying a project that has changed.
 
 Here's an attempt at demonstrating the problem above:
 
-![Failed deployments](./commit.png) 
+![Failed deployments](./commit.png)

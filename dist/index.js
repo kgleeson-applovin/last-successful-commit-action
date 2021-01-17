@@ -9,7 +9,11 @@ const core = __webpack_require__(186);
 const github = __webpack_require__(438);
 
 try {
-  const octokit = github.getOctokit(core.getInput("github_token"));
+  const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || core.getInput("github_token");
+  if (!token) {
+    throw Error('You must provide a GitHub Token via the action configuration parameter `github_token` or one of the following environment variables: `GITHUB_TOKEN`, `GH_TOKEN`.')
+  }
+  const octokit = github.getOctokit(token);
   const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/");
   octokit.actions
     .listWorkflowRuns({

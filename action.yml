@@ -1,19 +1,19 @@
-name: 'Last successful commit'
-description: 'Get the commit hash of the last successful workflow run on a given branch'
+name: "Last successful commit"
+description: "Get the commit hash of the last successful workflow run on a given branch"
 inputs:
-  branch:  # branch to analyze
-    description: 'Branch to get last successful commit from'
+  branch: # branch to analyze
+    description: "Branch to get last successful commit from"
     required: true
-    default: 'main'
-  github_token:  # github token to use
-    description: 'Your GitHub access token'
-    required: true
-  workflow_id:  # ID or filename of the workflow
-    description: 'ID or filename of the workflow'
+    default: "main"
+  github_token: # github token to use
+    description: "Your GitHub access token"
+    required: false
+  workflow_id: # ID or filename of the workflow
+    description: "ID or filename of the workflow"
     required: true
 outputs:
   commit_hash: # hash of the last successful workflow run
-    description: 'Last successful commit'
+    description: "Last successful commit"
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+  using: "node12"
+  main: "dist/index.js"
