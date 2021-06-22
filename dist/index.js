@@ -16,15 +16,21 @@ try {
   const octokit = github.getOctokit(token);
   const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/");
   const branch = core.getInput("branch");
+  const params = {
+    owner,
+    repo,
+    workflow_id: core.getInput("workflow_id"),
+    status: "success",
+    branch,
+  }
+  // optionally filter workflow runs by the event that triggered them
+  // unlike v1, there is no longer a default event of "push", the default event type is "any"
+  const event = core.getInput("workflow_event")
+  if (event) {
+      params.event = event
+  }
   octokit.actions
-    .listWorkflowRuns({
-      owner,
-      repo,
-      workflow_id: core.getInput("workflow_id"),
-      status: "success",
-      branch,
-      event: "push",
-    })
+    .listWorkflowRuns(params)
     .then((res) => {
       core.debug('workflow_runs.length: ' + res.data.workflow_runs.length);
       const lastSuccessCommitHash =
@@ -5948,7 +5954,7 @@ module.exports = require("zlib");;
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/ 	
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -5961,7 +5967,7 @@ module.exports = require("zlib");;
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
-/******/ 	
+/******/
 /******/ 		// Execute the module function
 /******/ 		var threw = true;
 /******/ 		try {
@@ -5970,14 +5976,14 @@ module.exports = require("zlib");;
 /******/ 		} finally {
 /******/ 			if(threw) delete __webpack_module_cache__[moduleId];
 /******/ 		}
-/******/ 	
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/ 	
+/******/
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat */
-/******/ 	
+/******/
 /******/ 	__webpack_require__.ab = __dirname + "/";/************************************************************************/
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled
 /******/ 	// startup

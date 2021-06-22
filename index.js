@@ -9,15 +9,21 @@ try {
   const octokit = github.getOctokit(token);
   const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/");
   const branch = core.getInput("branch");
+  const params = {
+    owner,
+    repo,
+    workflow_id: core.getInput("workflow_id"),
+    status: "success",
+    branch,
+  }
+  // optionally filter workflow runs by the event that triggered them
+  // unlike v1, there is no longer a default event of "push", the default event type is "any"
+  const event = core.getInput("workflow_event")
+  if (event) {
+      params.event = event
+  }
   octokit.actions
-    .listWorkflowRuns({
-      owner,
-      repo,
-      workflow_id: core.getInput("workflow_id"),
-      status: "success",
-      branch,
-      event: "push",
-    })
+    .listWorkflowRuns(params)
     .then((res) => {
       core.debug('workflow_runs.length: ' + res.data.workflow_runs.length);
       const lastSuccessCommitHash =

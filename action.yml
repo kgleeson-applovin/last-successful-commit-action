@@ -11,6 +11,9 @@ inputs:
   workflow_id: # ID or filename of the workflow
     description: "ID or filename of the workflow"
     required: true
+  workflow_event:  # Optional event filter for the workflow runs eg. 'push'
+    description: "Optional event filter for the workflow runs eg. 'push'"
+    required: false
 outputs:
   commit_hash: # hash of the last successful workflow run
     description: "Last successful commit"
