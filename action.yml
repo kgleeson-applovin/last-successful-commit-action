@@ -3,8 +3,7 @@ description: "Get the commit hash of the last successful workflow run on a given
 inputs:
   branch: # branch to analyze
     description: "Branch to get last successful commit from"
-    required: true
-    default: "main"
+    required: false
   github_token: # github token to use
     description: "Your GitHub access token"
     required: false

@@ -14,7 +14,7 @@ try {
   const octokit = github.getOctokit(token);
 
   const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
-  const branch = core.getInput('branch');
+  const branch = core.getInput("branch") || process.env.GITHUB_BASE_REF || process.env.GITHUB_REF_NAME || 'main'
   const params = {
     owner,
     repo,
